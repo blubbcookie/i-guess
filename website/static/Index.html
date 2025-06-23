@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><title>Python Server</title></head>
+<body>
+  <h1>Python Script starten</h1>
+  <button onclick="runScript()">Starte Script</button>
+  <pre id="output"></pre>
+
+  <script>
+    async function runScript() {
+      const res = await fetch("/run", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({script: "dein_script.py"})
+      });
+      const data = await res.json();
+      document.getElementById("output").textContent = data.output || data.error;
+    }
+  </script>
+</body>
+</html>
+<script>
+  // Optional: Add a function to handle errors or display messages
+  function displayMessage(message) {
+    document.getElementById("output").textContent = message;
+  }

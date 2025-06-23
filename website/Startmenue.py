@@ -136,8 +136,10 @@ def meunue():
             break
         else:print(f"Bist du dumm? Gib eine von diesen ein: {nummera} Sonst tschüss...")
 def get_username():
+    ordner = os.path.dirname(os.path.abspath(__file__))
+    pfad = os.path.join(ordner, "benutzername.txt")
     username = input("Wie heißt du? ")
-    with open("benutzername.txt", "w") as f:
+    with open(pfad, "w") as f:
         f.write(username)
     return username
 
