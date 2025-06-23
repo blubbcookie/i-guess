@@ -1,0 +1,25 @@
+from flask import Flask, render_template, request, jsonify
+import subprocess
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/run", methods=["POST"])
+def run_script():
+    try:
+        result = subprocess.run(
+            ["python3", "Startmenue.py"],
+            input=request.json.get("input", "").encode(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=60
+        )
+        return jsonify({"output": result.stdout.decode(), "error": result.stderr.decode()})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+if __name__ == "__main__":
+    app.run(debug=True)
